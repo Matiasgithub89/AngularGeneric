@@ -1,0 +1,26 @@
+<mat-card>
+    <mat-card-title>Datos del autor</mat-card-title>
+    <mat-card-subtitle>editar</mat-card-subtitle>
+
+    <mat-card-content>
+        <!--Nombre-->
+        <mat-form-field appearance="legacy">               
+                <input matInput [(ngModel)]="autor.nombre" placeholder="Nombre de Autor">               
+          </mat-form-field>
+        <!--Apellido-->
+        <mat-form-field appearance="legacy">                
+                <input matInput [(ngModel)]="autor.apellido" placeholder="Apellido de Autor">          
+          </mat-form-field>  
+        <!--Biografia-->
+        <mat-form-field appearance="legacy">                
+            <input matInput [(ngModel)]="autor.biografia" placeholder="Biografia de Autor">          
+      </mat-form-field> 
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button  (click)="save()">Guardar</button>
+      <button mat-button (click)="cancel()">Cancelar</button>
+    </mat-card-actions>
+  </mat-card>
+  
+

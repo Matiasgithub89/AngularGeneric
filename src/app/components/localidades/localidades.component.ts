@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Localidad } from '../model/localidad';
 import { LocalidadesService } from '../../services/localidades.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LocalidadDialogComponent } from '../localidad-dialog/localidad-dialog.component';
+import { LocalidadDeleteComponent } from '../localidad-delete/localidad-delete.component';
+import { TablaColumna, TablaTipoColumna } from 'src/app/shared/model/tablaColumna';
 
 @Component({
   selector: 'app-localidades',
@@ -9,23 +13,35 @@ import { LocalidadesService } from '../../services/localidades.service';
 })
 export class LocalidadesComponent implements OnInit {
   
-  localidadesList: Localidad[];
-  displayedColumns: string[]=['id','denominacion','codigoPostal'];
-
+  tablaColumnas: TablaColumna[]= [
+    { 
+      valor:"id",
+      tipo: TablaTipoColumna.NUMERO
+    },
+    {
+      valor:'denominacion',
+      tipo: TablaTipoColumna.TEXTO
+    },
+    {
+      valor:'codigoPostal',
+      tipo: TablaTipoColumna.TEXTO
+    }
+  ];
+  tablaHead: string[]=['id','denominacion','codigoPostal']
+  //seteo la variable que desencadena la habilitacion de los iconos.
+  editable:boolean = true;
 
   constructor(
-    private localidadeService: LocalidadesService
+    public localidadesService: LocalidadesService
   ) { }
 
+  //Si editable viene como true se agregara en la cabecera de la tabla la opcion y por consiguiente los iconos en el table.
   ngOnInit(): void {
-    this.getAllLocalidades();
+    if (this.editable==true){
+      this.tablaHead.push('acciones')
+    }
   }
 
-  getAllLocalidades(): void{
-    this.localidadeService.findAll()//hago el pedido al back
-      .subscribe((response:any)=>{//castea la respuesta en caso de que se conecte sin problemas, a mi variable localidad list. que es un array de localidades
-        this.localidadesList = response as Localidad[];//pido solo la response porque aca ya viene solo el data, desde el service
-      });
-  }
+  
 
 }

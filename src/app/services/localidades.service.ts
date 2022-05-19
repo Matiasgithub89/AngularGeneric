@@ -3,24 +3,20 @@ import { Injectable } from '@angular/core';
 import {  Observable } from 'rxjs';
 import { Localidad } from '../components/model/localidad';
 import { map } from 'rxjs/operators';
+import { GenericService } from './generic.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocalidadesService {
+export class LocalidadesService extends GenericService<Localidad> {
 
-  private apiUrl: 'http://localhost:8080/api/v1/localidades/'
+  private endpoint= this.api + 'localidades/';
 
   constructor(
-    private http:HttpClient
-  ) { }
-
-  findAll(): Observable<Localidad[]>{
-    const path = `http://localhost:8080/api/v1/localidades/`;
-    return this.http.get(path).pipe(
-      map((response:any)=> response.data as Localidad[])
-    );
+    private httpClient:HttpClient
+  ) { 
+    super(httpClient, 'localidades/')
   }
 
 }

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AutoresService } from 'src/app/services/autores.service';
 import { Autor } from '../model/autor';
+import { LocalidadDialogComponent } from '../localidad-dialog/localidad-dialog.component';
+import { AutoresDialogComponent } from '../autores-dialog/autores-dialog.component';
+import { TablaColumna, TablaTipoColumna } from 'src/app/shared/model/tablaColumna';
 
 @Component({
   selector: 'app-autores',
@@ -9,20 +13,47 @@ import { Autor } from '../model/autor';
 })
 export class AutoresComponent implements OnInit {
 
-  autoresList: Autor[];
-  displayedColumns:string[]=['id','nombre','apellido','biografia']
+  tablaColumnas: TablaColumna[]= [
+    { 
+      valor:"id",
+      tipo: TablaTipoColumna.NUMERO
+    },
+    {
+      valor:'nombre',
+      tipo: TablaTipoColumna.TEXTO
+    },
+    {
+      valor:'apellido',
+      tipo: TablaTipoColumna.TEXTO
+    },
+    {
+      valor:'biografia',
+      tipo: TablaTipoColumna.TEXTO
+    },
+    
+  ];
+  //autoresList: Autor[];
+  tablaHead:string[]=['id','nombre','apellido','biografia','acciones']
+  editable:boolean = true;
   constructor(
-    private autorService: AutoresService
+    public dialog: MatDialog,
+    public autorService: AutoresService
   ) { }
 
   ngOnInit(): void {
-    this.getAllAutores();
+    //this.getAllAutores();
   }
-  getAllAutores():void{
-    this.autorService.findAll()//hago el pedido al back
-      .subscribe((response:any)=>{//castea la respuesta en caso de que se conecte sin problemas, a mi variable localidad list. que es un array de localidades
-        this.autoresList = response as Autor[];//pido solo la response porque aca ya viene solo el data, desde el service
-      });
+ 
+  edit(autor: Autor){
+    const dialogEdit = this.dialog.open( AutoresDialogComponent,{
+      disableClose:true,
+      width:'60%',
+      data:autor
+    });
+
+  }
+  delete(autor: Autor){
+    
   }
 
 }
