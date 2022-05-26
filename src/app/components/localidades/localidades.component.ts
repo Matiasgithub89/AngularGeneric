@@ -12,25 +12,28 @@ import { TablaColumna, TablaTipoColumna } from 'src/app/shared/model/tablaColumn
   styleUrls: ['./localidades.component.css']
 })
 export class LocalidadesComponent implements OnInit {
-  
+   
   tablaColumnas: TablaColumna[]= [
     { 
       valor:"id",
-      tipo: TablaTipoColumna.NUMERO
+      tipo: TablaTipoColumna.NUMERO,
+      //visible:false
     },
     {
       valor:'denominacion',
-      tipo: TablaTipoColumna.TEXTO
+      tipo: TablaTipoColumna.TEXTO,
+      //visible:false
     },
     {
       valor:'codigoPostal',
-      tipo: TablaTipoColumna.TEXTO
+      tipo: TablaTipoColumna.TEXTO,
+      //visible:true
     }
   ];
   tablaHead: string[]=['id','denominacion','codigoPostal']
   //seteo la variable que desencadena la habilitacion de los iconos.
   editable:boolean = true;
-
+  entidad:string="Localidad"
   constructor(
     public localidadesService: LocalidadesService
   ) { }
@@ -40,6 +43,7 @@ export class LocalidadesComponent implements OnInit {
     if (this.editable==true){
       this.tablaHead.push('acciones')
     }
+     
   }
 
   

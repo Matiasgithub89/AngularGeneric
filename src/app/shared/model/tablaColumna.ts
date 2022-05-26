@@ -9,4 +9,5 @@ export enum TablaTipoColumna{
 export interface TablaColumna{
     valor: string;
     tipo: TablaTipoColumna;
+    //visible: boolean;
 }

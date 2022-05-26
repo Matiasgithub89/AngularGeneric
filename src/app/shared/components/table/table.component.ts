@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { TablaColumna } from '../../model/tablaColumna';
 import { GenericService } from 'src/app/services/generic.service';
+import { DialogComponent } from '../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericHelper } from './generic-helper';
 
 @Component({
   selector: 'app-table',
@@ -13,13 +16,21 @@ export class TableComponent implements OnInit {
     @Input()tablaColumnas!: TablaColumna[];
     @Input()tablaHead: String[]
     @Input()editable: Boolean;
+    @Input()entidad:String;
     dataSource: any[];
     //displayedColumns: string[] = ['id','denominacion','codigoPostal'];    
     
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.findAll();
+    //this.tablaColumnas.forEach(columna => {
+    //  if(columna.visible=true){
+    //    this.tablaHead.push(columna.valor)
+    //  }      
+    //});
   }
   findAll(): void{
     this.servicio.findAll().subscribe(
@@ -33,9 +44,22 @@ export class TableComponent implements OnInit {
         console.log("Error al mostrar"+ err)
       }
     )
-  }
-  edit(){   
-
+  }//ESTE EDIT SERA EL QUE HAGA TOMAS!
+  edit(data:any){
+    let genericHelper = new GenericHelper();
+    //ESTOS CAMPOS SERAN LOS QUE DEFINA PELI
+    genericHelper.title="Editar "+ this.entidad;
+    genericHelper.subtitle="Modifique los datos";
+    genericHelper.content="";
+    genericHelper.entidad= data;
+    genericHelper.isEdit=true;
+    const dialogEdit= this.dialog.open( DialogComponent,{
+      disableClose:true,
+      width:'60%',
+      //ESTA DATA SERA LA QUE PASE MATIAS
+      data:genericHelper
+    });         
+   
   }
   delete(){
     

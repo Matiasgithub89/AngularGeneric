@@ -29,12 +29,12 @@ export class AutoresComponent implements OnInit {
     {
       valor:'biografia',
       tipo: TablaTipoColumna.TEXTO
-    },
-    
+    }
   ];
   //autoresList: Autor[];
   tablaHead:string[]=['id','nombre','apellido','biografia','acciones']
   editable:boolean = true;
+  entidad:string="Autor"
   constructor(
     public dialog: MatDialog,
     public autorService: AutoresService
